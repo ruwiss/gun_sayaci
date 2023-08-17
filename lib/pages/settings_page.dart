@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/services/providers/settings_provider.dart';
 import 'package:gunsayaci/utils/strings.dart';
@@ -44,21 +45,21 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: const Text("Ayarlar"),
+        title: const Text("settings").tr(),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           const SizedBox(height: 30),
           _settingsItem(
-            title: "Karanlık Mod",
+            title: "dark-mode".tr(),
             onTap: () =>
                 settingsProvider.setAppThemeMode(darkMode: !isDarkMode),
             isDarkMode: isDarkMode,
-            widget: Text(isDarkMode ? "Açık" : "Kapalı"),
+            widget: Text(isDarkMode ? "on".tr() : "off".tr()),
           ),
           _settingsItem(
-            title: "Destek İçin Yıldız Ver",
+            title: "support-app".tr(),
             onTap: () => launchUrl(Uri.parse(KStrings.appLink),
                 mode: LaunchMode.externalApplication),
             isDarkMode: isDarkMode,

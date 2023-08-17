@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gunsayaci/utils/strings.dart';
@@ -7,7 +8,7 @@ class AdmobService {
   static const int interstitalShowCount = 2;
 
   static void _showAdLoadingWidget() =>
-      EasyLoading.show(status: 'Reklam Bekleniyor', dismissOnTap: false);
+      EasyLoading.show(status: 'ad-waiting'.tr(), dismissOnTap: false);
 
   static void callInterstitialAd() {
     _showAdLoadingWidget();

@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gunsayaci/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

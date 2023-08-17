@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gunsayaci/locator.dart';
@@ -10,6 +11,7 @@ import 'package:gunsayaci/utils/strings.dart';
 import 'package:gunsayaci/widgets/features/create/custom_box.dart';
 import 'package:gunsayaci/widgets/features/create/datetime_picker.dart';
 import 'package:gunsayaci/widgets/global/action_icon_button.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 class CreatePage extends StatefulWidget {
   const CreatePage({Key? key}) : super(key: key);
@@ -46,6 +48,17 @@ class _CreatePageState extends State<CreatePage> {
     );
   }
 
+  void _alarmPermission() async {
+    await Permission.scheduleExactAlarm.request();
+    await Permission.notification.request();
+  }
+
+  @override
+  void initState() {
+    _alarmPermission();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ({
@@ -60,7 +73,7 @@ class _CreatePageState extends State<CreatePage> {
       backgroundColor: KColors.createPageBackground,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(_appBarTitle ?? "Oluştur"),
+        title: Text(_appBarTitle ?? "create".tr()),
         actions: [
           if (isEdit && !args.isFirst)
             ActionIconButton(
@@ -77,7 +90,7 @@ class _CreatePageState extends State<CreatePage> {
             onTap: () {
               if (_titleController.text.isEmpty) {
                 Fluttertoast.showToast(
-                    msg: "Başlık Yazmadınız", toastLength: Toast.LENGTH_LONG);
+                    msg: "title-error".tr(), toastLength: Toast.LENGTH_LONG);
                 return;
               }
               DataModel dataModel = DataModel(
@@ -103,7 +116,7 @@ class _CreatePageState extends State<CreatePage> {
               onChanged: (DateTime dateTime) => _selectedDate = dateTime,
             ),
             CustomBox(
-              title: "Başlık Giriniz",
+              title: "title-info".tr(),
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10),
                 child: TextField(
@@ -120,7 +133,7 @@ class _CreatePageState extends State<CreatePage> {
             ),
             if (!args.isFirst)
               CustomBox(
-                title: "Renk Seçiniz",
+                title: "color-info".tr(),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: List.generate(
@@ -139,7 +152,7 @@ class _CreatePageState extends State<CreatePage> {
     _titleController.text = dataModel.title;
     _selectedDate = dataModel.dateTime;
     _selectedColorIndex = dataModel.color;
-    _appBarTitle = "Düzenle";
+    _appBarTitle = "edit".tr();
     _autoReplacementWorked = true;
     setState(() {});
   }

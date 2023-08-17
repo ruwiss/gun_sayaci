@@ -1,5 +1,5 @@
 import 'dart:async';
-
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/services/models/data_model.dart';
 import '../../../utils/colors.dart';
@@ -68,19 +68,19 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   if (widget.index != 0) const SizedBox(height: 100),
-                  _countItems!["Bitti"] == 1
-                      ? const Align(
+                  _countItems!["end"] == 1
+                      ?  Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
-                            "Süre Doldu",
-                            style: TextStyle(
+                          child: const Text(
+                            "time-expired",
+                            style:  TextStyle(
                                 fontSize: 18, fontWeight: FontWeight.w500),
-                          ),
+                          ).tr(),
                         )
                       : Row(
                           children: _countItems!.entries
                               .map(
-                                (e) => e.value == 0 && e.key != "Saniye"
+                                (e) => e.value == 0 && e.key != "second".tr()
                                     ? const SizedBox()
                                     : Row(
                                         children: [
@@ -110,7 +110,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                                               )
                                             ],
                                           ),
-                                          if (e.key != "Saniye")
+                                          if (e.key != "second".tr())
                                             Padding(
                                               padding: const EdgeInsets.only(
                                                   bottom: 16,
@@ -173,11 +173,11 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         final Duration difference = widget.dataModel.dateTime.difference(now);
 
         _countItems = {
-          "Gün": difference.inDays,
-          "Saat": difference.inHours % 24,
-          "Dakika": difference.inMinutes % 60,
-          "Saniye": difference.inSeconds % 60,
-          "Bitti": difference.isNegative ? 1 : 0,
+          "day".tr(): difference.inDays,
+          "hour".tr(): difference.inHours % 24,
+          "minute".tr(): difference.inMinutes % 60,
+          "second".tr(): difference.inSeconds % 60,
+          "end": difference.isNegative ? 1 : 0,
         };
         setState(() {});
       });

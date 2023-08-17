@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:gunsayaci/locator.dart';
@@ -18,6 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   bool _dataFetch = false;
 
+ 
   @override
   void initState() {
     locator.get<DatabaseService>().getAllDatas().then((value) {
@@ -33,7 +35,7 @@ class _HomePageState extends State<HomePage> {
     if (dataModelList.isEmpty && _dataFetch) _firstLoginNavigate();
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Gün Sayacı"),
+        title: const Text("app-name").tr(),
         actions: [
           ActionIconButton(
             iconData: Icons.add,
@@ -52,8 +54,8 @@ class _HomePageState extends State<HomePage> {
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
         child: dataModelList.isEmpty
-            ? const Align(
-                alignment: Alignment.center, child: Text("Bekleyiniz"))
+            ?  Align(
+                alignment: Alignment.center, child: const Text("wait").tr())
             : Stack(
                 children: [
                   Container(height: 140 * dataModelList.length + 10),

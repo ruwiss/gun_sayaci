@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/services/models/datetime_model.dart';
 import 'package:gunsayaci/utils/colors.dart';
@@ -21,19 +22,19 @@ final List scrollList = [_yearController, _monthController, _dayController];
 
 late List<int> _years;
 late List<int> _days;
-const List<String> _months = [
-  "Ocak",
-  "Şubat",
-  "Mart",
-  "Nisan",
-  "Mayıs",
-  "Haziran",
-  "Temmuz",
-  "Ağustos",
-  "Eylül",
-  "Ekim",
-  "Kasım",
-  "Aralık",
+List<String> _months = [
+  "january".tr(),
+  "february".tr(),
+  "march".tr(),
+  "april".tr(),
+  "may".tr(),
+  "june".tr(),
+  "july".tr(),
+  "august".tr(),
+  "september".tr(),
+  "october".tr(),
+  "november".tr(),
+  "december".tr(),
 ];
 
 DateTimeModel _selectedDateTime = DateTimeModel.empty();
@@ -91,7 +92,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
   @override
   Widget build(BuildContext context) {
     return CustomBox(
-      title: "Zaman Seçiniz",
+      title: "pick-time".tr(),
       child: Column(
         children: [
           // Date Picker
@@ -104,7 +105,10 @@ class _DateTimePickerState extends State<DateTimePicker> {
               ),
               _wheelView(
                 controller: _monthController,
-                items: List.generate(12, (index) => _months[index]),
+                items: List.generate(12, (index) {
+                  final String month = _months[index];
+                  return month.length > 6 ? month.substring(0, 6) : month;
+                }),
               ),
               _wheelView(
                 controller: _dayController,
@@ -118,11 +122,11 @@ class _DateTimePickerState extends State<DateTimePicker> {
               final TimeOfDay? selectedTime = await showTimePicker(
                 context: context,
                 initialTime: TimeOfDay.now(),
-                helpText: "Saat ve dakika seçin",
-                hourLabelText: "Saat",
-                minuteLabelText: "Dakika",
-                cancelText: "Vazgeç",
-                confirmText: "Tamam",
+                helpText: "time-helper".tr(),
+                hourLabelText: "hour".tr(),
+                minuteLabelText: "minute".tr(),
+                cancelText: "cancel".tr(),
+                confirmText: "confirm".tr(),
                 builder: (BuildContext context, Widget? child) {
                   return MediaQuery(
                     data: MediaQuery.of(context)
@@ -153,7 +157,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                     child: Text(
                       _selectedDateTime.hour == 0 &&
                               _selectedDateTime.minute == 0
-                          ? "Saat Seç"
+                          ? "pick-hour".tr()
                           : "${_selectedDateTime.hour}: ${_selectedDateTime.minute}",
                       style: const TextStyle(
                           fontSize: 16,
