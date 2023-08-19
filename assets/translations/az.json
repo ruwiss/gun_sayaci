@@ -36,6 +36,8 @@
     "time-expired": "Vaxt bitdi",
     "reminder-title": "Xatırlatıcı",
     "reminder-body": "Qaydalar üçün vaxt bitdi: '{}'.",
+    "reminder-hour-body": "Yalnız 6 saat! {} unutmayın.",
+    "reminder-day-body": "{} üçün 1 gün qaldı.",
     "dump-item-0": "Kane'in Ad Günü",
     "dump-item-1": "Kredit Borcunun Son Günü",
     "dump-item-2": "Sürücülük Lisenziya Sınaqına Qalan",

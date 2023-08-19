@@ -36,6 +36,8 @@
     "time-expired": "Temps écoulé",
     "reminder-title": "Rappel",
     "reminder-body": "Le temps est écoulé pour le rappel intitulé '{}'.",
+    "reminder-hour-body": "Seulement 6 heures restantes ! N'oubliez pas {}.",
+    "reminder-day-body": "Jour 1 restant pour {}.",
     "dump-item-0": "Anniversaire de Kane",
     "dump-item-1": "Dernier jour de la dette de crédit",
     "dump-item-2": "Restant pour l'examen du permis de conduire",

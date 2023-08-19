@@ -36,6 +36,8 @@
     "time-expired": "時間切れ",
     "reminder-title": "リマインダー",
     "reminder-body": "リマインダー '{}' の時間が切れました。",
+    "reminder-hour-body": "あと6時間だけ！ {} を忘れないでください。",
+    "reminder-day-body": "{} まであと1日。",
     "dump-item-0": "カーンの誕生日",
     "dump-item-1": "クレジット債務の最終日",
     "dump-item-2": "運転免許試験まで残り",

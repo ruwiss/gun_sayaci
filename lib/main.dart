@@ -33,21 +33,21 @@ void main() async {
       ],
       child: EasyLocalization(
         supportedLocales: const [
-          Locale("en", "US"),
-          Locale("tr", "TR"),
-          Locale("ar", "AR"),
-          Locale("az", "AZ"),
-          Locale("tr", "TR"),
-          Locale("es", "ES"),
-          Locale("fr", "FR"),
-          Locale("hi", "IN"),
-          Locale("ja", "JP"),
-          Locale("pa", "IN"),
-          Locale("pt", "BR"),
-          Locale("ru", "RU"),
+          Locale("en"),
+          Locale("tr"),
+          Locale("ar"),
+          Locale("az"),
+          Locale("tr"),
+          Locale("es"),
+          Locale("fr"),
+          Locale("hi"),
+          Locale("ja"),
+          Locale("ur"),
+          Locale("pt"),
+          Locale("ru"),
         ],
         path: "assets/translations",
-        fallbackLocale: const Locale("en", "US"),
+        fallbackLocale: const Locale("en"),
         child: const Home(),
       ),
     ),
@@ -66,7 +66,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    AdmobService.callAppOpenAd(hideLoadingWidget: true);
+    //AdmobService.callAppOpenAd(hideLoadingWidget: true);
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }

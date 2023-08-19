@@ -36,6 +36,8 @@
     "time-expired": "Süre Doldu",
     "reminder-title": "Hatırlatıcı",
     "reminder-body": "{} başlıklı hatırlatıcınız için süre doldu.",
+    "reminder-hour-body": "Son 6 saat! {} unutmayın.",
+    "reminder-day-body": "{} için 1 gün kaldı.",
     "dump-item-0": "Elif Meryem'in Doğum Günü",
     "dump-item-1": "Kredi Borcumun Son Günü",
     "dump-item-2": "Ehliyet Sınavına Kalan",

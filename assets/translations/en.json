@@ -36,6 +36,8 @@
     "time-expired": "Time Expired",
     "reminder-title": "Reminder",
     "reminder-body": "Time expired for the reminder titled '{}'.",
+    "reminder-hour-body": "Only 6 hours left! Don't forget {}.",
+    "reminder-day-body": "1 day left for {}.",
     "dump-item-0": "Kane's Birthday",
     "dump-item-1": "Last Day of Credit Debt",
     "dump-item-2": "Remaining for Driver's License Exam",

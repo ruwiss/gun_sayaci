@@ -4,7 +4,6 @@ import 'package:gunsayaci/services/functions/admob_service.dart';
 import 'package:gunsayaci/services/functions/notification_helper.dart';
 import 'package:gunsayaci/services/models/data_model.dart';
 import 'package:gunsayaci/services/providers/home_provider.dart';
-import 'package:gunsayaci/utils/strings.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
@@ -90,6 +89,25 @@ class DatabaseService {
             title: "reminder-title".tr(),
             body: "reminder-body".tr(args: [dataModel.title]),
             scheduledDateTime: dataModel.dateTime);
+
+        final Duration difference =
+            dataModel.dateTime.difference(DateTime.now());
+        if (difference.inHours > 5) {
+          NotificationHelper.scheduleNotification(
+              id: dataModelList.length - 1 + i,
+              title: "reminder-title".tr(),
+              body: "reminder-hour-body".tr(args: [dataModel.title]),
+              scheduledDateTime:
+                  dataModel.dateTime.subtract(const Duration(hours: 6)));
+        }
+        if (difference.inDays > 0) {
+          NotificationHelper.scheduleNotification(
+              id: dataModelList.length + i,
+              title: "reminder-title".tr(),
+              body: "reminder-day-body".tr(args: [dataModel.title]),
+              scheduledDateTime:
+                  dataModel.dateTime.subtract(const Duration(days: 1)));
+        }
       }
     }
   }

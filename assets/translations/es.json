@@ -36,6 +36,8 @@
     "time-expired": "Tiempo Agotado",
     "reminder-title": "Recordatorio",
     "reminder-body": "Se agotó el tiempo para el recordatorio titulado '{}'.",
+    "reminder-hour-body": "¡Solo faltan 6 horas! No olvides {}.",
+    "reminder-day-body": "1 día restante para {}.",
     "dump-item-0": "Cumpleaños de Kane",
     "dump-item-1": "Último día de la deuda de crédito",
     "dump-item-2": "Restante para el examen de licencia de conducir",
