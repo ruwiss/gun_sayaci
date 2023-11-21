@@ -33,8 +33,13 @@ class NotificationHelper {
     required String body,
     required String payload, // bildirime extra veri eklemek istersek
   }) async =>
-      _notifications.show(id, title, body, await _notificationDetails(),
-          payload: payload);
+      _notifications.show(
+        id,
+        title,
+        body,
+        await _notificationDetails(),
+        payload: payload,
+      );
 
   // Zamanlanmış bildirim gösterme.
   static Future scheduleNotification({
