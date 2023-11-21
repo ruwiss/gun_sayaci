@@ -49,7 +49,6 @@ class _CreatePageState extends State<CreatePage> {
   }
 
   void _alarmPermission() async {
-    await Permission.scheduleExactAlarm.request();
     await Permission.notification.request();
   }
 

@@ -94,7 +94,7 @@ class DatabaseService {
             dataModel.dateTime.difference(DateTime.now());
         if (difference.inHours > 5) {
           NotificationHelper.scheduleNotification(
-              id: dataModelList.length - 1 + i,
+              id: i * 100,
               title: "reminder-title".tr(),
               body: "reminder-hour-body".tr(args: [dataModel.title]),
               scheduledDateTime:
@@ -102,7 +102,7 @@ class DatabaseService {
         }
         if (difference.inDays > 0) {
           NotificationHelper.scheduleNotification(
-              id: dataModelList.length + i,
+              id: i * 200,
               title: "reminder-title".tr(),
               body: "reminder-day-body".tr(args: [dataModel.title]),
               scheduledDateTime:
