@@ -96,7 +96,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
           ? const SizedBox()
           : MaterialApp(
               debugShowCheckedModeBanner: false,
-              themeMode: value.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+              themeMode: ThemeMode.system,
               theme: ThemeData(
                 useMaterial3: true,
                 brightness:

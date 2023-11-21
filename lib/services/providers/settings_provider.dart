@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/utils/colors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -18,7 +17,7 @@ class SettingsProvider with ChangeNotifier {
   void getAppThemeMode() async {
     _prefs = await SharedPreferences.getInstance();
     final bool? darkMode = _prefs.getBool(_appThemeKey);
-    isDarkMode = darkMode ?? true;
+    isDarkMode = darkMode ?? ThemeMode.system == ThemeMode.dark;
     changeColors();
     settingsFetch = true;
     notifyListeners();

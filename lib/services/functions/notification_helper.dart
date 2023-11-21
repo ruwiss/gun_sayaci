@@ -52,7 +52,7 @@ class NotificationHelper {
           tz.TZDateTime.from(scheduledDateTime, tz.local),
           await _notificationDetails(),
           // Bildirim tipini burada alarm olarak belirledik.
-          androidScheduleMode: AndroidScheduleMode.alarmClock,
+          androidScheduleMode: AndroidScheduleMode.exactAllowWhileIdle,
           // Bildirim zamanını absolute (gmt) zaman dilimi olarak belirledik.
           uiLocalNotificationDateInterpretation:
               UILocalNotificationDateInterpretation.absoluteTime);
