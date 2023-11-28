@@ -1,53 +1,45 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
-import 'package:gunsayaci/locator.dart';
-import 'package:gunsayaci/pages/create_page.dart';
-import 'package:gunsayaci/pages/home_page.dart';
-import 'package:gunsayaci/pages/settings_page.dart';
-import 'package:gunsayaci/services/functions/admob_service.dart';
-import 'package:gunsayaci/services/functions/notification_helper.dart';
-import 'package:gunsayaci/services/providers/home_provider.dart';
-import 'package:gunsayaci/services/providers/settings_provider.dart';
-import 'package:gunsayaci/utils/colors.dart';
+import 'package:gunsayaci/common/extensions/theme.dart';
+import 'package:gunsayaci/common/utils/strings.dart';
+import 'package:gunsayaci/ui/views/create/create_provider.dart';
+import 'package:gunsayaci/ui/views/home/home_provider.dart';
+import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timezone/data/latest.dart' as tz;
+import 'core/core.dart';
+import 'core/services/services.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
   FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
   MobileAds.instance.initialize();
+  setupLocator();
   await NotificationHelper.initialize();
   await EasyLocalization.ensureInitialized();
-  setupLocator();
+  await locator<SettingsProvider>().init();
   tz.initializeTimeZones();
   runApp(
     MultiProvider(
       providers: [
         ChangeNotifierProvider<HomeProvider>(
-            create: (context) => locator.get<HomeProvider>()),
+          create: (context) => locator<HomeProvider>(),
+        ),
+         ChangeNotifierProvider<CreateProvider>(
+          create: (context) => locator<CreateProvider>(),
+        ),
         ChangeNotifierProvider<SettingsProvider>(
-            create: (context) => locator.get<SettingsProvider>()),
+          create: (context) => locator<SettingsProvider>(),
+        ),
       ],
       child: EasyLocalization(
-        supportedLocales: const [
-          Locale("en"),
-          Locale("tr"),
-          Locale("ar"),
-          Locale("az"),
-          Locale("tr"),
-          Locale("es"),
-          Locale("fr"),
-          Locale("hi"),
-          Locale("ja"),
-          Locale("ur"),
-          Locale("pt"),
-          Locale("ru"),
-        ],
         path: "assets/translations",
         fallbackLocale: const Locale("en"),
+        supportedLocales:
+            KStrings.supportedLocales.map((e) => Locale(e)).toList(),
         child: const Home(),
       ),
     ),
@@ -55,7 +47,7 @@ void main() async {
 }
 
 class Home extends StatefulWidget {
-  const Home({Key? key}) : super(key: key);
+  const Home({super.key});
 
   @override
   State<Home> createState() => _HomeState();
@@ -66,7 +58,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
 
   @override
   void initState() {
-    //AdmobService.callAppOpenAd(hideLoadingWidget: true);
     WidgetsBinding.instance.addObserver(this);
     super.initState();
   }
@@ -92,39 +83,17 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Consumer<SettingsProvider>(
-      builder: (context, value, child) => !value.settingsFetch
-          ? const SizedBox()
-          : MaterialApp(
-              debugShowCheckedModeBanner: false,
-              themeMode: ThemeMode.system,
-              theme: ThemeData(
-                useMaterial3: true,
-                brightness:
-                    value.isDarkMode ? Brightness.dark : Brightness.light,
-                fontFamily: "Poppins",
-                scaffoldBackgroundColor: KColors.baseColor,
-                textTheme: TextTheme(
-                    bodyLarge: TextStyle(
-                        color: value.isDarkMode ? null : Colors.black87)),
-                appBarTheme: AppBarTheme(
-                  color: KColors.baseColor,
-                  titleTextStyle: TextStyle(
-                      fontSize: 28,
-                      fontWeight: FontWeight.bold,
-                      color: value.isDarkMode ? null : Colors.black87),
-                ),
-              ),
-              localizationsDelegates: context.localizationDelegates,
-              supportedLocales: context.supportedLocales,
-              locale: context.locale,
-              builder: EasyLoading.init(),
-              initialRoute: "/",
-              routes: {
-                "/": (context) => const HomePage(),
-                "/create": (context) => const CreatePage(),
-                "/settings": (context) => const SettingsPage()
-              },
-            ),
+      builder: (context, value, child) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        themeMode: value.themeMode,
+        theme: context.lightTheme(),
+        darkTheme: context.darkTheme(),
+        localizationsDelegates: context.localizationDelegates,
+        supportedLocales: context.supportedLocales,
+        locale: context.locale,
+        builder: EasyLoading.init(),
+        routerConfig: router,
+      ),
     );
   }
 }
