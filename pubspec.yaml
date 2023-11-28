@@ -41,7 +41,6 @@ dependencies:
   fluttertoast: ^8.2.2
   url_launcher: ^6.1.11
   google_mobile_ads: ^3.0.0
-  flutter_easyloading: ^3.0.5
   flutter_native_splash: ^2.3.0
   flutter_local_notifications: ^16.2.0
   permission_handler: ^11.1.0

@@ -23,6 +23,7 @@ extension ThemeExtension on BuildContext {
         brightness: Brightness.dark,
         fontFamily: 'Poppins',
         scaffoldBackgroundColor: KColors.baseColorDark,
+        colorScheme: const ColorScheme.dark(onPrimary: Colors.white),
         appBarTheme: const AppBarTheme(
           color: KColors.baseColorDark,
           titleTextStyle: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),

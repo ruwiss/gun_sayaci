@@ -1,9 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:gunsayaci/common/extensions/theme.dart';
 import 'package:gunsayaci/common/utils/strings.dart';
-import 'package:gunsayaci/ui/views/create/create_provider.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
 import 'package:provider/provider.dart';
@@ -27,9 +25,6 @@ void main() async {
       providers: [
         ChangeNotifierProvider<HomeProvider>(
           create: (context) => locator<HomeProvider>(),
-        ),
-         ChangeNotifierProvider<CreateProvider>(
-          create: (context) => locator<CreateProvider>(),
         ),
         ChangeNotifierProvider<SettingsProvider>(
           create: (context) => locator<SettingsProvider>(),
@@ -75,7 +70,7 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
       _isPaused = true;
     }
     if (state == AppLifecycleState.resumed && _isPaused) {
-      AdmobService.callAppOpenAd();
+      AdmobService.callAppOpenAd(onAction: () => Navigator.pop(context));
       _isPaused = false;
     }
   }
@@ -91,7 +86,6 @@ class _HomeState extends State<Home> with WidgetsBindingObserver {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
         locale: context.locale,
-        builder: EasyLoading.init(),
         routerConfig: router,
       ),
     );

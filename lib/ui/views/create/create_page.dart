@@ -29,8 +29,8 @@ class _CreatePageState extends State<CreatePage> {
 
   @override
   void initState() {
-    locator<CreateProvider>().init(widget.dataModel);
     _alarmPermission();
+    context.read<CreateProvider>().init(widget.dataModel);
     super.initState();
   }
 

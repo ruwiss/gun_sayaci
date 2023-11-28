@@ -11,20 +11,22 @@ class CreateProvider with ChangeNotifier {
   int selectedColorIndex = -1;
   final titleController = TextEditingController();
 
-  Future<void> init(DataModel? dataModel) async {
-    if (dataModel != null) {
-      titleController.text = dataModel.title;
-      selectedDate = dataModel.dateTime;
-      selectedColorIndex = dataModel.color;
+  Future<void> init(DataModel? model) async {
+    if (model != null) {
+      dataModel = model;
+      titleController.text = model.title;
+      selectedDate = model.dateTime;
+      selectedColorIndex = model.color;
       appBarTitle = "edit".tr();
     }
   }
 
-  Future<void> submitData()async {
+  Future<void> submitData() async {
     final model =
         DataModel(selectedDate!, titleController.text, selectedColorIndex);
+
     if (dataModel != null) {
-     await locator<DatabaseService>()
+      await locator<DatabaseService>()
           .updateData(id: dataModel!.id!, dataModel: model);
     } else {
       await locator<DatabaseService>().insertData(model);

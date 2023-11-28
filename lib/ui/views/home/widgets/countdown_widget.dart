@@ -119,7 +119,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
       padding: const EdgeInsets.only(left: 15),
       child: IconButton(
         onPressed: () {
-          context.pushNamed('create', queryParameters: {'isFirst': widget.index == 0}, extra: widget.dataModel);
+          context.pushNamed('create', queryParameters: {'isFirst': '${widget.index == 0}'}, extra: widget.dataModel);
         },
         icon: const Icon(Icons.edit_note),
       ),

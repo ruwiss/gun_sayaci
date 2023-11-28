@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       locator<HomeProvider>().getAllDatas().then((value) {
         if (value.isEmpty && mounted) {
-          context.pushNamed('create', queryParameters: {'isFirst': true});
+          context.pushNamed('create', queryParameters: {'isFirst': 'true'});
         }
         FlutterNativeSplash.remove();
       });
@@ -40,7 +40,7 @@ class _HomePageState extends State<HomePage> {
           ActionIconButton(
             iconData: Icons.add,
             onTap: () => context.pushNamed('create',
-                queryParameters: {'isFirst': dataModelList.isEmpty}),
+                queryParameters: {'isFirst': '${dataModelList.isEmpty}'}),
           ),
           ActionIconButton(
               iconData: Icons.settings,
