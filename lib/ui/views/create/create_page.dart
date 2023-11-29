@@ -62,8 +62,8 @@ class _CreatePageState extends State<CreatePage> {
                       msg: "title-error".tr(), toastLength: Toast.LENGTH_LONG);
                   return;
                 }
-                context.pop();
                 await model.submitData();
+                if (mounted) context.pop(true);
               },
             )
           ],

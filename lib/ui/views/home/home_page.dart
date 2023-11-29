@@ -1,3 +1,4 @@
+import 'package:advanced_in_app_review/advanced_in_app_review.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -18,6 +19,13 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  void _inAppPreview() {
+    AdvancedInAppReview()
+        .setMinDaysBeforeRemind(1)
+        .setMinLaunchTimes(2)
+        .monitor();
+  }
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -41,8 +49,11 @@ class _HomePageState extends State<HomePage> {
         actions: [
           ActionIconButton(
             iconData: Icons.add,
-            onTap: () => context.pushNamed('create',
-                queryParameters: {'isFirst': '${dataModelList.isEmpty}'}),
+            onTap: () async {
+              final cb = await context.pushNamed('create',
+                  queryParameters: {'isFirst': '${dataModelList.isEmpty}'});
+              if (cb != null) _inAppPreview();
+            },
           ),
           ActionIconButton(
               iconData: Icons.settings,
