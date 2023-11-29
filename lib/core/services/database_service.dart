@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gunsayaci/common/utils/utils.dart';
 import 'package:gunsayaci/core/core.dart';
-import 'package:gunsayaci/core/services/ads/admob_service.dart';
+import 'package:gunsayaci/core/services/admob_service.dart';
 import 'package:gunsayaci/core/services/notification_helper.dart';
 import 'package:gunsayaci/common/models/data_model.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';

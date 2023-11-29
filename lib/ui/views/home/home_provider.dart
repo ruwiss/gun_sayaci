@@ -1,15 +1,26 @@
 import 'package:flutter/cupertino.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gunsayaci/common/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
+import 'package:gunsayaci/core/services/admob_service.dart';
 import 'package:gunsayaci/core/services/database_service.dart';
 
 class HomeProvider with ChangeNotifier {
+  BannerAd? bannerAd;
   List<DataModel> dataModelList = [];
 
   Future<List<DataModel>> getAllDatas() async {
     dataModelList = await locator<DatabaseService>().getAllDatas();
     notifyListeners();
+    loadBannerAd();
     return dataModelList;
+  }
+
+  void loadBannerAd() {
+    locator<AdmobService>().loadBannerAd(onLoaded: (ad) {
+      bannerAd = ad;
+      notifyListeners();
+    });
   }
 
   void setDataModelList(List<DataModel> dataModelList) {

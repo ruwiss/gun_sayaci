@@ -1,5 +1,5 @@
 import 'package:get_it/get_it.dart';
-import 'package:gunsayaci/core/services/ads/admob_service.dart';
+import 'package:gunsayaci/core/services/admob_service.dart';
 import 'package:gunsayaci/core/services/database_service.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';

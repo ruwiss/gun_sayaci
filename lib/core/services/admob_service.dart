@@ -11,7 +11,7 @@ class AdmobService {
 
   static void _showLoadingWidget() {
     showDialog(
-      context: router.routerDelegate.navigatorKey.currentContext!,
+      context: getContextFromRouter!,
       builder: (BuildContext context) => AlertDialog(
         contentPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 20),
         content: Row(
@@ -35,9 +35,11 @@ class AdmobService {
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
           interstitialCount++;
+          Navigator.pop(getContextFromRouter!);
           ad.show();
         },
         onAdFailedToLoad: (LoadAdError error) {
+          Navigator.pop(getContextFromRouter!);
           log("Interstitial Ad Load Error : ${error.message}");
         },
       ),
@@ -52,14 +54,34 @@ class AdmobService {
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(
         onAdLoaded: (ad) {
+          Navigator.pop(getContextFromRouter!);
           onAction?.call();
           ad.show();
         },
         onAdFailedToLoad: (error) {
+          Navigator.pop(getContextFromRouter!);
           onAction?.call();
           log("appOpenAd Load Error : ${error.message}");
         },
       ),
     );
+  }
+
+  void loadBannerAd({Function(BannerAd ad)? onLoaded}) {
+    BannerAd(
+      adUnitId: KStrings.homeBannerAdId,
+      request: const AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (ad) {
+          log('$ad loaded.');
+          onLoaded?.call(ad as BannerAd);
+        },
+        onAdFailedToLoad: (ad, err) {
+          log('BannerAd failed to load: $err');
+          ad.dispose();
+        },
+      ),
+    ).load();
   }
 }

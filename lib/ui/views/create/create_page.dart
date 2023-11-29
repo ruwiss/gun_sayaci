@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gunsayaci/common/extensions/context_extensions.dart';
 import 'package:gunsayaci/common/extensions/theme.dart';
 import 'package:gunsayaci/common/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
@@ -50,7 +49,8 @@ class _CreatePageState extends State<CreatePage> {
               ActionIconButton(
                 iconData: Icons.remove_circle,
                 onTap: () async {
-                  locator<DatabaseService>().removeData(widget.dataModel!.id!);
+                  await locator<DatabaseService>()
+                      .removeData(widget.dataModel!.id!);
                   if (mounted) context.pop();
                 },
               ),
@@ -62,8 +62,8 @@ class _CreatePageState extends State<CreatePage> {
                       msg: "title-error".tr(), toastLength: Toast.LENGTH_LONG);
                   return;
                 }
+                context.pop();
                 await model.submitData();
-                if (mounted) context.pushNamedRemoveUntil();
               },
             )
           ],

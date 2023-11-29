@@ -17,16 +17,39 @@ class CountdownWidget extends StatefulWidget {
   State<CountdownWidget> createState() => _CountdownWidgetState();
 }
 
-class _CountdownWidgetState extends State<CountdownWidget> {
+class _CountdownWidgetState extends State<CountdownWidget>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _animationController;
+  late Animation<Offset> _animation;
+
   late Timer _timer;
   Map<String, int>? _countItems;
+
+  void _setAnimations() {
+    _animationController = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: widget.index * 500),
+    );
+
+    CurvedAnimation curve = CurvedAnimation(
+        parent: _animationController, curve: Curves.easeOutCirc);
+
+    _animation = Tween<Offset>(
+      begin: const Offset(0.0, -1.0),
+      end: Offset.zero,
+    ).animate(curve);
+
+    _animationController.forward();
+  }
 
   void _startCountDownTimer() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
         final DateTime now = DateTime.now();
         final Duration difference = widget.dataModel.dateTime.difference(now);
-
+        if (_countItems == null) {
+          _setAnimations();
+        }
         _countItems = {
           "day".tr(): difference.inDays,
           "hour".tr(): difference.inHours % 24,
@@ -34,6 +57,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
           "second".tr(): difference.inSeconds % 60,
           "end": difference.isNegative ? 1 : 0,
         };
+
         setState(() {});
       });
     });
@@ -48,6 +72,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   @override
   void dispose() {
     _timer.cancel();
+    _animationController.dispose();
     super.dispose();
   }
 
@@ -55,12 +80,11 @@ class _CountdownWidgetState extends State<CountdownWidget> {
   Widget build(BuildContext context) {
     final isDarkMode =
         context.watch<SettingsProvider>().themeMode == ThemeMode.dark;
-    return AnimatedOpacity(
-      duration: Duration(milliseconds: widget.index * 100),
-      opacity: _countItems != null ? 1 : 0,
-      child: _countItems == null
-          ? const SizedBox()
-          : Container(
+    return _countItems == null
+        ? const SizedBox()
+        : SlideTransition(
+            position: _animation,
+            child: Container(
               padding: const EdgeInsets.only(left: 80, right: 5, top: 15),
               height: widget.index == 0 ? 140 : 240,
               decoration: BoxDecoration(
@@ -111,7 +135,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
                 ],
               ),
             ),
-    );
+          );
   }
 
   Padding _editButton(BuildContext context) {
@@ -119,7 +143,9 @@ class _CountdownWidgetState extends State<CountdownWidget> {
       padding: const EdgeInsets.only(left: 15),
       child: IconButton(
         onPressed: () {
-          context.pushNamed('create', queryParameters: {'isFirst': '${widget.index == 0}'}, extra: widget.dataModel);
+          context.pushNamed('create',
+              queryParameters: {'isFirst': '${widget.index == 0}'},
+              extra: widget.dataModel);
         },
         icon: const Icon(Icons.edit_note),
       ),
@@ -133,7 +159,7 @@ class _CountdownWidgetState extends State<CountdownWidget> {
         softWrap: true,
         overflow: TextOverflow.ellipsis,
         maxLines: 1,
-        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 13),
+        style: const TextStyle(fontWeight: FontWeight.w500, fontSize: 14),
       ),
     );
   }
