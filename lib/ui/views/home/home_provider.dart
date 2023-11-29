@@ -10,6 +10,7 @@ class HomeProvider with ChangeNotifier {
   List<DataModel> dataModelList = [];
 
   Future<List<DataModel>> getAllDatas() async {
+    await locator<DatabaseService>().init();
     dataModelList = await locator<DatabaseService>().getAllDatas();
     notifyListeners();
     loadBannerAd();

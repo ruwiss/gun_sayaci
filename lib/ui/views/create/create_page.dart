@@ -44,6 +44,7 @@ class _CreatePageState extends State<CreatePage> {
           title: Text(model.appBarTitle),
           backgroundColor:
               context.isDarkTheme ? null : KColors.createPageBackground,
+          leading: widget.isFirst && !isEdit ? const SizedBox() : null,
           actions: [
             if (isEdit && !widget.isFirst)
               ActionIconButton(
