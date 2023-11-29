@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gunsayaci/common_models/data_model.dart';
+import 'package:gunsayaci/models/data_model.dart';
 import 'package:gunsayaci/ui/views/create/create_page.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
 import 'package:gunsayaci/ui/views/home/home_page.dart';

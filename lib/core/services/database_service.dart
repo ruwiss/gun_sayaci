@@ -1,6 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:gunsayaci/core/core.dart';
-import 'package:gunsayaci/common_models/data_model.dart';
+import 'package:gunsayaci/models/data_model.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
 import 'package:gunsayaci/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
