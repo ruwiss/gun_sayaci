@@ -1,8 +1,8 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
 import 'package:gunsayaci/ui/views/settings/widgets/settings_item.dart';
+import 'package:gunsayaci/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 

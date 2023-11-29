@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gunsayaci/common/extensions/extensions.dart';
-import 'package:gunsayaci/common/models/data_model.dart';
+import 'package:gunsayaci/common_models/data_model.dart';
 import 'package:gunsayaci/ui/views/create/create_page.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
 import 'package:gunsayaci/ui/views/home/home_page.dart';
 import 'package:gunsayaci/ui/views/settings/settings_page.dart';
+import 'package:gunsayaci/utils/ext/ext.dart';
 import 'package:provider/provider.dart';
 
 final GoRouter router = GoRouter(

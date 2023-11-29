@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/extensions/extensions.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
+import 'package:gunsayaci/ui/theme.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
+import 'package:gunsayaci/utils/utils.dart';
 import 'package:provider/provider.dart';
 
 class ColorWidget extends StatelessWidget {

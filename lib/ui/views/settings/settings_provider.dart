@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/extensions/string_extensions.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
+import 'package:gunsayaci/utils/utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 

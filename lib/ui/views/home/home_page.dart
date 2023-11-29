@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:gunsayaci/common/models/models.dart';
+import 'package:gunsayaci/common_models/models.dart';
 import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
-import 'package:gunsayaci/ui/widgets/widgets.dart';
+import 'package:gunsayaci/ui/common_widgets/widgets.dart';
 import 'package:provider/provider.dart';
 import 'widgets/widgets.dart';
 

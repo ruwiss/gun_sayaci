@@ -2,10 +2,10 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:gunsayaci/common/models/models.dart';
+import 'package:gunsayaci/common_models/models.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
+import 'package:gunsayaci/utils/utils.dart';
 import 'package:provider/provider.dart';
-import '../../../../common/utils/colors.dart';
 
 class CountdownWidget extends StatefulWidget {
   final DataModel dataModel;

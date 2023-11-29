@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/ui/views/create/widgets/custom_box.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
+import 'package:gunsayaci/utils/utils.dart';
 
 class DateTimePicker extends StatefulWidget {
   final DateTime? editDateTime;

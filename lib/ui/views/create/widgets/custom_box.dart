@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
+import 'package:gunsayaci/utils/utils.dart';
 
 class CustomBox extends StatelessWidget {
   final String title;

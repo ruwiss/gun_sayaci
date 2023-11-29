@@ -1,7 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/extensions/theme.dart';
-import 'package:gunsayaci/common/utils/strings.dart';
+import 'package:gunsayaci/ui/theme.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +8,7 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'core/core.dart';
-import 'core/services/services.dart';
+import 'utils/strings.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();

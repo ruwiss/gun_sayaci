@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/extensions/extensions.dart';
+import 'package:gunsayaci/ui/theme.dart';
 
 class ActionIconButton extends StatelessWidget {
   final IconData iconData;

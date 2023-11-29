@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gunsayaci/common/utils/utils.dart';
+import 'package:gunsayaci/utils/utils.dart';
 
 extension ThemeExtension on BuildContext {
   bool get isDarkTheme => Theme.of(this).brightness == Brightness.dark;
