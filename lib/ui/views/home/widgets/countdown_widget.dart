@@ -137,18 +137,25 @@ class _CountdownWidgetState extends State<CountdownWidget>
                     ],
                   ),
                 ),
-                if (widget.dataModel.emoji != null)
-                  Positioned(
-                    right: 30,
-                    bottom: 78,
-                    child: Text(
-                      widget.dataModel.emoji!,
-                      style: const TextStyle(fontSize: 28),
-                    ),
-                  )
+                if (widget.dataModel.emoji != null) _emojiWidget()
               ],
             ),
           );
+  }
+
+  Positioned _emojiWidget() {
+    return Positioned(
+      right: 30,
+      bottom: 70,
+      child: CircleAvatar(
+        backgroundColor: Colors.grey.withOpacity(.15),
+        radius: 25,
+        child: Text(
+          widget.dataModel.emoji!,
+          style: const TextStyle(fontSize: 28),
+        ),
+      ),
+    );
   }
 
   Padding _editButton(BuildContext context) {
