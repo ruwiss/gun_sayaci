@@ -3,11 +3,13 @@ import 'package:gunsayaci/utils/utils.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
-class SettingsProvider with ChangeNotifier {
-  final String _dataTable = 'settings';
-  final String _darkModeKey = 'darkMode';
+import 'models/settings_model.dart';
 
-  late List<Map<String, Object?>> _settings;
+class SettingsProvider with ChangeNotifier {
+  late Database _db;
+  final String _dataTable = 'settings';
+
+  late List<SettingsModel> _settings;
   ThemeMode themeMode = ThemeMode.light;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
@@ -25,59 +27,42 @@ class SettingsProvider with ChangeNotifier {
   }
 
   Future<void> _initTable() async {
-    final db = await _openDatabase();
-    await db.execute(
+    _db = await _openDatabase();
+    await _db.execute(
         'CREATE TABLE IF NOT EXISTS $_dataTable (key TEXT, value TEXT)');
-    await db.close();
   }
 
   Future<void> _getAllSettings() async {
-    final db = await _openDatabase();
-    _settings = await db.query(_dataTable);
-    await db.close();
+    final values = await _db.query(_dataTable);
+    _settings = values.map((e) => SettingsModel.fromJson(e)).toList();
   }
 
-  Object? _getSettingValue(String key) {
-    for (var setting in _settings) {
-      if (setting['key'] == key) {
-        return setting['value'];
-      }
+  String? _getSettingValue(String key) {
+    for (SettingsModel setting in _settings) {
+      if (setting.key == key) return setting.value;
     }
     return null;
   }
 
+  bool? _getDarkThemeSettingValue() =>
+      _getSettingValue(SettingsTypes.darkMode)?.parseBool();
+
   void _getAppThemeMode() {
-    final bool darkMode =
-        (_getSettingValue(_darkModeKey) as String?)?.parseBool() ?? false;
+    final bool darkMode = _getDarkThemeSettingValue() ?? false;
     themeMode = darkMode ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
   }
 
   void toggleTheme() async {
-    final db = await _openDatabase();
-    if (themeMode == ThemeMode.dark) {
-      themeMode = ThemeMode.light;
-    } else {
-      themeMode = ThemeMode.dark;
-    }
+    themeMode =
+        (themeMode == ThemeMode.dark) ? ThemeMode.light : ThemeMode.dark;
 
-    if (_getSettingValue(_darkModeKey) == null) {
-      await db.insert(_dataTable, {
-        'key': _darkModeKey,
-        'value': (themeMode == ThemeMode.dark).toString()
-      });
+    if (_getDarkThemeSettingValue() == null) {
+      await _db.insert(_dataTable, SettingsModel.theme(themeMode).toJson());
     } else {
-      await db.update(
-          _dataTable,
-          {
-            'key': _darkModeKey,
-            'value': (themeMode == ThemeMode.dark).toString()
-          },
-          where: 'key=?',
-          whereArgs: [_darkModeKey]);
+      await _db.update(_dataTable, SettingsModel.theme(themeMode).toJson(),
+          where: 'key = ?', whereArgs: [SettingsTypes.darkMode]);
     }
-
-    await db.close();
     notifyListeners();
   }
 }

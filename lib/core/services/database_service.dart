@@ -7,58 +7,50 @@ import 'package:sqflite/sqflite.dart';
 import 'package:path/path.dart';
 
 class DatabaseService {
+  late Database _db;
   final String dataTable = 'sayac';
 
-  Future<Database> _openDatabase() async {
+  Future<void> _openDatabase() async {
     final String path = await getDatabasesPath();
     String databasePath = join(path, KStrings.dbFile);
-    return await openDatabase(databasePath, version: 1);
+    _db = await openDatabase(databasePath, version: 1);
   }
 
   Future<void> init() async {
-    final db = await _openDatabase();
-    await db.execute(
-        'CREATE TABLE IF NOT EXISTS $dataTable (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, dateTime TEXT)');
-    await db.close();
+    await _openDatabase();
+    await _db.execute('''CREATE TABLE IF NOT EXISTS $dataTable 
+        (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, dateTime TEXT)''');
   }
 
   Future<void> insertData(DataModel dataModel) async {
     locator<AdmobService>().callInterstitialAd();
-    final db = await _openDatabase();
-    await db
+    await _db
         .insert(dataTable, dataModel.toMap())
         .then((value) => dataModel.id = value);
     locator<HomeProvider>().addToDataModelList(dataModel);
     _updateScheduleTimer();
-    await db.close();
   }
 
   Future<void> removeData(int id) async {
     locator<AdmobService>().callInterstitialAd();
-    final db = await _openDatabase();
-    await db.rawDelete('DELETE FROM $dataTable WHERE id = ?', [id]);
+    await _db.delete(dataTable, where: 'id = ?', whereArgs: [id]);
     locator<HomeProvider>().removeFromDataModelList(id);
     _updateScheduleTimer();
-    await db.close();
   }
 
   Future<void> updateData(
       {required int id, required DataModel dataModel}) async {
     locator<AdmobService>().callInterstitialAd();
-    final db = await _openDatabase();
-    await db
+    await _db
         .update(dataTable, dataModel.toMap(), where: 'id = ?', whereArgs: [id]);
     dataModel.id = id;
     locator<HomeProvider>().updateDataModel(id: id, dataModel: dataModel);
     _updateScheduleTimer();
-    await db.close();
   }
 
   Future<List<DataModel>> getAllDatas() async {
-    final db = await _openDatabase();
-    final results = await db.query(dataTable);
+    final results = await _db.query(dataTable);
     _updateScheduleTimer();
-    await db.close();
     return results.map((e) => DataModel.fromJson(e)).toList();
   }
 
