@@ -8,7 +8,6 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:timezone/data/latest.dart' as tz;
 import 'core/core.dart';
-import 'utils/strings.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -32,8 +31,7 @@ void main() async {
       child: EasyLocalization(
         path: "assets/translations",
         fallbackLocale: const Locale("en"),
-        supportedLocales:
-            KStrings.supportedLocales.map((e) => Locale(e)).toList(),
+        supportedLocales: ['en', 'tr'].map((e) => Locale(e)).toList(),
         child: const Home(),
       ),
     ),

@@ -27,18 +27,4 @@ abstract class KStrings {
 
   static String getRandomTimerHint() =>
       dumpTimerHintTextList[Random().nextInt(dumpTimerHintTextList.length)];
-
-  static final List<String> supportedLocales = [
-    'en',
-    'tr',
-    'ar',
-    'az',
-    'es',
-    'fr',
-    'hi',
-    'ja',
-    'ur',
-    'pt',
-    'ru'
-  ];
 }

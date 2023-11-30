@@ -20,16 +20,19 @@ class CreateProvider with ChangeNotifier {
     }
   }
 
-  Future<void> submitData() async {
+  Future<bool> submitData() async {
     final model =
         DataModel(selectedDate!, titleController.text, selectedColorIndex);
 
+    if (!NotificationHelper.checkDateIsAfter(model)) return false;
+
     if (dataModel != null) {
       await locator<DatabaseService>()
-          .updateData(id: dataModel!.id!, dataModel: model);
+          .updateData(id: dataModel!.id!, model: model);
     } else {
       await locator<DatabaseService>().insertData(model);
     }
+    return true;
   }
 
   void setSelectedColor(int index) {

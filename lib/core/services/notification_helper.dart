@@ -1,12 +1,18 @@
 import 'dart:async';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:gunsayaci/models/data_model.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
 
 class NotificationHelper {
   // Nesnemizi oluşturduk
   static final _notifications = FlutterLocalNotificationsPlugin();
 
-  static Future initialize() async {
+  static void permission() async => await Permission.notification.request(); 
+
+  static Future<void> initialize() async {
     // Bildirim ikonu belirttik.
     const androidInitialize =
         AndroidInitializationSettings('mipmap/ic_launcher');
@@ -18,7 +24,8 @@ class NotificationHelper {
   }
 
   // Bildirimimizle ilgili tüm ayarları çağırmak üzere burada belirttik.
-  static Future _notificationDetails() async => const NotificationDetails(
+  static Future<NotificationDetails> _notificationDetails() async =>
+      const NotificationDetails(
         android: AndroidNotificationDetails(
           "GunSayaci",
           "day_counterr_1",
@@ -27,7 +34,7 @@ class NotificationHelper {
       );
 
   // Normal bildirim gösterme.
-  static Future showNotification({
+  static Future<void> showNotification({
     int id = 0,
     required String title,
     required String body,
@@ -42,7 +49,7 @@ class NotificationHelper {
       );
 
   // Zamanlanmış bildirim gösterme.
-  static Future scheduleNotification({
+  static Future<void> scheduleNotification({
     int id = 0,
     String? title,
     String? body,
@@ -63,6 +70,30 @@ class NotificationHelper {
               UILocalNotificationDateInterpretation.absoluteTime);
 
   // Tüm zamanlanmış fonksiyonları iptal etme.
-  static Future unScheduleAllNotifications() async =>
+  static Future<void> unScheduleAllNotifications() async =>
       await _notifications.cancelAll();
+
+  static bool checkDateIsAfter(DataModel model) {
+    final bool value = model.dateTime.isAfter(DateTime.now());
+    if (!value) Fluttertoast.showToast(msg: 'valid-date'.tr());
+    return value;
+  }
+
+  static Future<void> removeSchedule(DataModel model) async {
+    await _notifications.cancel(model.id!);
+  }
+
+  static Future<void> addSchedule(DataModel model) async {
+
+    await scheduleNotification(
+        id: model.id!,
+        title: "reminder-title".tr(),
+        body: "reminder-body".tr(args: [model.title]),
+        scheduledDateTime: model.dateTime);
+  }
+
+  static Future<void> updateSchedule(int id, DataModel model) async {
+    await removeSchedule(model);
+    await addSchedule(model);
+  }
 }

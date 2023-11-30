@@ -8,7 +8,6 @@ import 'package:gunsayaci/ui/theme.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
 import 'package:gunsayaci/ui/widgets/widgets.dart';
 import 'package:gunsayaci/utils/utils.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 import 'widgets/widgets.dart';
 
@@ -22,11 +21,9 @@ class CreatePage extends StatefulWidget {
 }
 
 class _CreatePageState extends State<CreatePage> {
-  void _alarmPermission() async => await Permission.notification.request();
-
   @override
   void initState() {
-    _alarmPermission();
+    NotificationHelper.permission();
     context.read<CreateProvider>().init(widget.dataModel);
     super.initState();
   }
@@ -49,7 +46,7 @@ class _CreatePageState extends State<CreatePage> {
                 iconData: Icons.remove_circle,
                 onTap: () async {
                   await locator<DatabaseService>()
-                      .removeData(widget.dataModel!.id!);
+                      .removeData(widget.dataModel!);
                   if (mounted) context.pop();
                 },
               ),
@@ -61,8 +58,7 @@ class _CreatePageState extends State<CreatePage> {
                       msg: "title-error".tr(), toastLength: Toast.LENGTH_LONG);
                   return;
                 }
-                await model.submitData();
-                if (mounted) context.pop(true);
+                if (await model.submitData() && mounted) context.pop(true);
               },
             )
           ],
