@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 @immutable
 abstract class SettingsTypes {
   static const String darkMode = 'darkMode';
+  static const String welcomeMessage = 'welcomeMessage';
 }
 
 class SettingsModel {

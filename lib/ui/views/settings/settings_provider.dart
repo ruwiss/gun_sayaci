@@ -23,7 +23,13 @@ class SettingsProvider with ChangeNotifier {
   Future<Database> _openDatabase() async {
     final String path = await getDatabasesPath();
     String databasePath = join(path, KStrings.dbFile);
-    return await openDatabase(databasePath, version: 1);
+    return await openDatabase(databasePath, version: 2,
+        onUpgrade: (db, oldVersion, newVersion) {
+      // her güncellemede güncelleme notları gösterilsin diye veritabanındaki
+      // kayıt siliniyor.
+      db.delete(_dataTable,
+          where: 'key = ?', whereArgs: [SettingsTypes.welcomeMessage]);
+    });
   }
 
   Future<void> _initTable() async {
@@ -42,6 +48,14 @@ class SettingsProvider with ChangeNotifier {
       if (setting.key == key) return setting.value;
     }
     return null;
+  }
+
+  bool welcomeMessageShown() =>
+      _getSettingValue(SettingsTypes.welcomeMessage) != null;
+
+  void setWelcomeMessageShown() async {
+    await _db.insert(_dataTable,
+        SettingsModel(SettingsTypes.welcomeMessage, 'true').toJson());
   }
 
   bool? _getDarkThemeSettingValue() =>

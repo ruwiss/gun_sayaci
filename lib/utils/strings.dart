@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract class KStrings {
+  static const String appVersion = '2.0.0';
   static const String dbFile = 'sayac.db';
 
   static const String appLink =

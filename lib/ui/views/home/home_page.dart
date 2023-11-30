@@ -7,7 +7,9 @@ import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
+import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
 import 'package:gunsayaci/ui/widgets/widgets.dart';
+import 'package:gunsayaci/utils/utils.dart';
 import 'package:provider/provider.dart';
 import 'widgets/widgets.dart';
 
@@ -19,12 +21,17 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  void _inAppPreview() {
-    AdvancedInAppReview()
-        .setMinDaysBeforeRemind(1)
-        .setMinLaunchTimes(2)
-        .monitor();
+  void _welcomeMessage() {
+    if (!locator<SettingsProvider>().welcomeMessageShown()) {
+      context.showWelcomeDialog();
+      locator<SettingsProvider>().setWelcomeMessageShown();
+    }
   }
+
+  void _inAppPreview() => AdvancedInAppReview()
+      .setMinDaysBeforeRemind(1)
+      .setMinLaunchTimes(2)
+      .monitor();
 
   @override
   void initState() {
@@ -32,6 +39,8 @@ class _HomePageState extends State<HomePage> {
       locator<HomeProvider>().getAllDatas().then((value) {
         if (value.isEmpty && mounted) {
           context.pushNamed('create', queryParameters: {'isFirst': 'true'});
+        } else {
+          _welcomeMessage();
         }
         FlutterNativeSplash.remove();
       });
