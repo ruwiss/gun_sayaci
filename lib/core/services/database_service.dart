@@ -12,13 +12,18 @@ class DatabaseService {
   Future<void> _openDatabase() async {
     final String path = await getDatabasesPath();
     String databasePath = join(path, KStrings.dbFile);
-    _db = await openDatabase(databasePath, version: 1);
+    _db = await openDatabase(databasePath, version: 2,
+        onUpgrade: (db, oldVersion, newVersion) {
+      if (oldVersion < 2) {
+        db.execute('ALTER TABLE $dataTable ADD COLUMN emoji TEXT');
+      }
+    });
   }
 
   Future<void> init() async {
     await _openDatabase();
     await _db.execute('''CREATE TABLE IF NOT EXISTS $dataTable 
-        (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, dateTime TEXT)''');
+        (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, emoji Text, dateTime TEXT)''');
   }
 
   Future<void> insertData(DataModel model) async {
@@ -41,13 +46,14 @@ class DatabaseService {
   Future<void> updateData({required int id, required DataModel model}) async {
     locator<AdmobService>().callInterstitialAd();
 
-    await _db
-        .update(dataTable, model.toMap(), where: 'id = ?', whereArgs: [id]);
+    await _db.update(dataTable, model.toMap(),
+        where: 'id = ?',
+        whereArgs: [id],
+        conflictAlgorithm: ConflictAlgorithm.ignore);
 
     await NotificationHelper.updateSchedule(id, model..id = id);
+    locator<HomeProvider>().updateDataModel(id: id, dataModel: model..id = id);
     model.id = id;
-
-    locator<HomeProvider>().updateDataModel(id: id, dataModel: model);
   }
 
   Future<List<DataModel>> getAllDatas() async {

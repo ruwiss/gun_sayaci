@@ -47,7 +47,7 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text("app-name").tr(),
         actions: [
-          ActionIconButton(
+          CustomActionButton(
             iconData: Icons.add,
             onTap: () async {
               final cb = await context.pushNamed('create',
@@ -55,7 +55,7 @@ class _HomePageState extends State<HomePage> {
               if (cb != null) _inAppPreview();
             },
           ),
-          ActionIconButton(
+          CustomActionButton(
               iconData: Icons.settings,
               onTap: () => context.pushNamed('settings')),
         ],

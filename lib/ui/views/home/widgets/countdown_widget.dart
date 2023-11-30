@@ -84,56 +84,69 @@ class _CountdownWidgetState extends State<CountdownWidget>
         ? const SizedBox()
         : SlideTransition(
             position: _animation,
-            child: Container(
-              padding: const EdgeInsets.only(left: 80, right: 5, top: 15),
-              height: widget.index == 0 ? 140 : 240,
-              decoration: BoxDecoration(
-                color: widget.index == 0 || widget.dataModel.color == -1
-                    ? isDarkMode
-                        ? KColors.baseColorDark
-                        : KColors.baseColorLight
-                    : isDarkMode
-                        ? KColors.widgetColorsDark[widget.dataModel.color]
-                        : KColors.widgetColorsLight[widget.dataModel.color],
-                borderRadius: const BorderRadius.only(
-                  bottomLeft: Radius.circular(90),
-                ),
-                boxShadow: const [
-                  BoxShadow(
-                      color: Colors.black26,
-                      offset: Offset(0, 0),
-                      blurRadius: 20,
-                      spreadRadius: 2),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  if (widget.index != 0) const SizedBox(height: 100),
-                  if (_countItems!["end"] == 1)
-                    Align(
-                      alignment: Alignment.centerLeft,
-                      child: const Text(
-                        "time-expired",
-                        style: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.w500),
-                      ).tr(),
-                    )
-                  else
-                    _countdownView(context, isDarkMode),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 5),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        _titleView(),
-                        _editButton(context),
-                      ],
+            child: Stack(
+              children: [
+                Container(
+                  padding: const EdgeInsets.only(left: 80, right: 5, top: 15),
+                  height: widget.index == 0 ? 140 : 240,
+                  decoration: BoxDecoration(
+                    color: widget.index == 0 || widget.dataModel.color == -1
+                        ? isDarkMode
+                            ? KColors.baseColorDark
+                            : KColors.baseColorLight
+                        : isDarkMode
+                            ? KColors.widgetColorsDark[widget.dataModel.color]
+                            : KColors.widgetColorsLight[widget.dataModel.color],
+                    borderRadius: const BorderRadius.only(
+                      bottomLeft: Radius.circular(90),
                     ),
+                    boxShadow: const [
+                      BoxShadow(
+                          color: Colors.black26,
+                          offset: Offset(0, 0),
+                          blurRadius: 20,
+                          spreadRadius: 2),
+                    ],
                   ),
-                ],
-              ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      if (widget.index != 0) const SizedBox(height: 100),
+                      if (_countItems!["end"] == 1)
+                        Align(
+                          alignment: Alignment.centerLeft,
+                          child: const Text(
+                            "time-expired",
+                            style: TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.w500),
+                          ).tr(),
+                        )
+                      else
+                        _countdownView(context, isDarkMode),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 5),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _titleView(),
+                            _editButton(context),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                if (widget.dataModel.emoji != null)
+                  Positioned(
+                    right: 30,
+                    bottom: 78,
+                    child: Text(
+                      widget.dataModel.emoji!,
+                      style: const TextStyle(fontSize: 28),
+                    ),
+                  )
+              ],
             ),
           );
   }

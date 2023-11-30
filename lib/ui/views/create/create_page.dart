@@ -7,6 +7,7 @@ import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/ui/theme.dart';
 import 'package:gunsayaci/ui/views/create/create_provider.dart';
+import 'package:gunsayaci/ui/views/create/widgets/emoji_picker.dart';
 import 'package:gunsayaci/ui/widgets/widgets.dart';
 import 'package:gunsayaci/utils/utils.dart';
 import 'package:provider/provider.dart';
@@ -42,8 +43,14 @@ class _CreatePageState extends State<CreatePage> {
               context.isDarkTheme ? null : KColors.createPageBackground,
           leading: widget.isFirst && !isEdit ? const SizedBox() : null,
           actions: [
+            EmojiPicker(
+              emoji: model.emoji,
+              onChanged: (emoji) {
+                model.selectEmoji(emoji);
+              },
+            ),
             if (isEdit && !widget.isFirst)
-              ActionIconButton(
+              CustomActionButton(
                 iconData: Icons.remove_circle,
                 onTap: () async {
                   await locator<DatabaseService>()
@@ -51,7 +58,7 @@ class _CreatePageState extends State<CreatePage> {
                   if (mounted) context.pop();
                 },
               ),
-            ActionIconButton(
+            CustomActionButton(
               iconData: Icons.check_circle,
               onTap: () async {
                 if (model.titleController.text.isEmpty) {

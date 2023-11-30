@@ -38,6 +38,7 @@ class HomeProvider with ChangeNotifier {
   }
 
   void updateDataModel({required int id, required DataModel dataModel}) {
+    print("${dataModel.emoji} emoji");
     dataModelList[dataModelList.indexWhere((element) => element.id == id)] =
         dataModel;
     notifyListeners();

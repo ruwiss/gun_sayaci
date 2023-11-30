@@ -1,10 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/ui/theme.dart';
 
-class ActionIconButton extends StatelessWidget {
-  final IconData iconData;
+enum CustomActionButtonTypes { icon, emoji }
+
+class CustomActionButton extends StatelessWidget {
+  final CustomActionButtonTypes type;
+  final IconData? iconData;
+  final String? emoji;
   final Function()? onTap;
-  const ActionIconButton({super.key, required this.iconData, this.onTap});
+
+  const CustomActionButton({super.key, required this.iconData, this.onTap})
+      : type = CustomActionButtonTypes.icon,
+        emoji = null;
+
+  const CustomActionButton.emoji({super.key, required this.emoji, this.onTap})
+      : type = CustomActionButtonTypes.emoji,
+        iconData = null;
 
   @override
   Widget build(BuildContext context) {
@@ -14,13 +25,16 @@ class ActionIconButton extends StatelessWidget {
         backgroundColor: Colors.black.withOpacity(.08),
         radius: 18,
         child: IconButton(
-          onPressed: onTap,
-          icon: Icon(
-            iconData,
-            size: 20,
-            color: context.isDarkTheme ? null : Colors.black87,
-          ),
-        ),
+            onPressed: onTap,
+            icon: switch (type) {
+              CustomActionButtonTypes.icon => Icon(
+                  iconData,
+                  size: 20,
+                  color: context.isDarkTheme ? null : Colors.black87,
+                ),
+              CustomActionButtonTypes.emoji =>
+                Text(emoji!, style: const TextStyle(fontSize: 16))
+            }),
       ),
     );
   }

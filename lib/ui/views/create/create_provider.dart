@@ -11,6 +11,7 @@ class CreateProvider with ChangeNotifier {
   String appBarTitle = 'create'.tr();
   DateTime? selectedDate;
   int selectedColorIndex = -1;
+  String? emoji;
   final titleController = TextEditingController();
 
   void _loadBannerAd() {
@@ -30,13 +31,18 @@ class CreateProvider with ChangeNotifier {
       titleController.text = model.title;
       selectedDate = model.dateTime;
       selectedColorIndex = model.color;
+      emoji = model.emoji;
       appBarTitle = "edit".tr();
     }
   }
 
   Future<bool> submitData() async {
-    final model =
-        DataModel(selectedDate!, titleController.text, selectedColorIndex);
+    final model = DataModel(
+      selectedDate!,
+      titleController.text,
+      selectedColorIndex,
+      emoji,
+    );
 
     if (!NotificationHelper.checkDateIsAfter(model)) return false;
 
@@ -51,6 +57,11 @@ class CreateProvider with ChangeNotifier {
 
   void setSelectedColor(int index) {
     selectedColorIndex = index;
+    notifyListeners();
+  }
+
+  void selectEmoji(String emoji) async {
+    this.emoji = emoji;
     notifyListeners();
   }
 }
