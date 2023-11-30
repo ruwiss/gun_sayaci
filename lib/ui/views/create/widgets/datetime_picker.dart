@@ -165,7 +165,7 @@ class _DateTimePickerState extends State<DateTimePicker> {
                       _selectedDateTime.hour == 0 &&
                               _selectedDateTime.minute == 0
                           ? "pick-hour".tr()
-                          : "${_selectedDateTime.hour}: ${_selectedDateTime.minute}",
+                          : "${'${_selectedDateTime.hour}'.padLeft(2, '0')} : ${'${_selectedDateTime.minute}'.padLeft(2, '0')}",
                       style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
