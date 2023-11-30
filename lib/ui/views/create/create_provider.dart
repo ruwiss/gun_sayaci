@@ -37,7 +37,7 @@ class CreateProvider with ChangeNotifier {
   }
 
   Future<bool> submitData() async {
-    if (emoji != null || emoji!.trim().isEmpty) emoji = null;
+    if (emoji == null || emoji!.trim().isEmpty) emoji = null;
     final model = DataModel(
       selectedDate!,
       titleController.text,

@@ -161,10 +161,10 @@ class _CountdownWidgetState extends State<CountdownWidget>
           if (hasEmoji)
             CircleAvatar(
               backgroundColor: Colors.grey.withOpacity(.15),
-              radius: 25,
+              radius: 24,
               child: Text(
                 widget.dataModel.emoji!,
-                style: const TextStyle(fontSize: 28),
+                style: const TextStyle(fontSize: 26),
               ),
             ),
           if (expired)
