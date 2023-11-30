@@ -33,7 +33,7 @@
     "cancel": "Cancel",
     "confirm": "Confirm",
     "pick-hour": "Pick Hour",
-    "time-expired": "Time Expired",
+    "time-expired": "Expired",
     "reminder-title": "Reminder",
     "reminder-body": "Time expired for the reminder titled '{}'.",
     "valid-date": "Please enter a valid date.",

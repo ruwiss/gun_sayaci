@@ -37,6 +37,7 @@ class CreateProvider with ChangeNotifier {
   }
 
   Future<bool> submitData() async {
+    if (emoji != null || emoji!.trim().isEmpty) emoji = null;
     final model = DataModel(
       selectedDate!,
       titleController.text,
@@ -44,13 +45,15 @@ class CreateProvider with ChangeNotifier {
       emoji,
     );
 
-    if (!NotificationHelper.checkDateIsAfter(model)) return false;
+    // Zamanlayıcıyı aktif et (Eğer şimdiki tarihten ileriyse)
+    final bool schedule = NotificationHelper.checkDateIsAfter(model);
 
     if (dataModel != null) {
       await locator<DatabaseService>()
-          .updateData(id: dataModel!.id!, model: model);
+          .updateData(id: dataModel!.id!, model: model, schedule: schedule);
     } else {
-      await locator<DatabaseService>().insertData(model);
+      await locator<DatabaseService>()
+          .insertData(model: model, schedule: schedule);
     }
     return true;
   }
@@ -61,7 +64,7 @@ class CreateProvider with ChangeNotifier {
   }
 
   void selectEmoji(String emoji) async {
-    this.emoji = emoji;
+    this.emoji = emoji.trim().isEmpty ? null : emoji;
     notifyListeners();
   }
 }

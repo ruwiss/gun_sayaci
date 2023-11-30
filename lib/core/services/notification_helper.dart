@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gunsayaci/models/data_model.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:timezone/timezone.dart' as tz;
@@ -10,7 +9,7 @@ class NotificationHelper {
   // Nesnemizi oluşturduk
   static final _notifications = FlutterLocalNotificationsPlugin();
 
-  static void permission() async => await Permission.notification.request(); 
+  static void permission() async => await Permission.notification.request();
 
   static Future<void> initialize() async {
     // Bildirim ikonu belirttik.
@@ -75,7 +74,6 @@ class NotificationHelper {
 
   static bool checkDateIsAfter(DataModel model) {
     final bool value = model.dateTime.isAfter(DateTime.now());
-    if (!value) Fluttertoast.showToast(msg: 'valid-date'.tr());
     return value;
   }
 
@@ -84,7 +82,6 @@ class NotificationHelper {
   }
 
   static Future<void> addSchedule(DataModel model) async {
-
     await scheduleNotification(
         id: model.id!,
         title: "reminder-title".tr(),

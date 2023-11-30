@@ -26,13 +26,14 @@ class DatabaseService {
         (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, emoji Text, dateTime TEXT)''');
   }
 
-  Future<void> insertData(DataModel model) async {
+  Future<void> insertData(
+      {required DataModel model, bool schedule = true}) async {
     locator<AdmobService>().callInterstitialAd();
 
     await _db
         .insert(dataTable, model.toMap())
         .then((value) => model.id = value);
-    await NotificationHelper.addSchedule(model);
+    if (schedule) await NotificationHelper.addSchedule(model);
     locator<HomeProvider>().addToDataModelList(model);
   }
 
@@ -43,7 +44,8 @@ class DatabaseService {
     locator<HomeProvider>().removeFromDataModelList(model.id!);
   }
 
-  Future<void> updateData({required int id, required DataModel model}) async {
+  Future<void> updateData(
+      {required int id, required DataModel model, bool schedule = true}) async {
     locator<AdmobService>().callInterstitialAd();
 
     await _db.update(dataTable, model.toMap(),
@@ -51,7 +53,7 @@ class DatabaseService {
         whereArgs: [id],
         conflictAlgorithm: ConflictAlgorithm.ignore);
 
-    await NotificationHelper.updateSchedule(id, model..id = id);
+    if (schedule) await NotificationHelper.updateSchedule(id, model..id = id);
     locator<HomeProvider>().updateDataModel(id: id, dataModel: model..id = id);
     model.id = id;
   }

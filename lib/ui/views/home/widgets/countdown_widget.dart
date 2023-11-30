@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
 import 'package:gunsayaci/utils/utils.dart';
@@ -45,19 +46,29 @@ class _CountdownWidgetState extends State<CountdownWidget>
   void _startCountDownTimer() {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
+        if (_countItems == null) _setAnimations();
         final DateTime now = DateTime.now();
-        final Duration difference = widget.dataModel.dateTime.difference(now);
-        if (_countItems == null) {
-          _setAnimations();
-        }
-        _countItems = {
-          "day".tr(): difference.inDays,
-          "hour".tr(): difference.inHours % 24,
-          "minute".tr(): difference.inMinutes % 60,
-          "second".tr(): difference.inSeconds % 60,
-          "end": difference.isNegative ? 1 : 0,
-        };
+        if (NotificationHelper.checkDateIsAfter(widget.dataModel)) {
+          final Duration difference = widget.dataModel.dateTime.difference(now);
 
+          _countItems = {
+            "day".tr(): difference.inDays,
+            "hour".tr(): difference.inHours % 24,
+            "minute".tr(): difference.inMinutes % 60,
+            "second".tr(): difference.inSeconds % 60,
+            "end": 0
+          };
+        } else {
+          final Duration difference = now.difference(widget.dataModel.dateTime);
+
+          _countItems = {
+            "day".tr(): difference.inDays,
+            "hour".tr(): difference.inHours % 24,
+            "minute".tr(): difference.inMinutes % 60,
+            "second".tr(): difference.inSeconds % 60,
+            "end": 1
+          };
+        }
         setState(() {});
       });
     });
@@ -102,10 +113,11 @@ class _CountdownWidgetState extends State<CountdownWidget>
                     ),
                     boxShadow: const [
                       BoxShadow(
-                          color: Colors.black26,
-                          offset: Offset(0, 0),
-                          blurRadius: 20,
-                          spreadRadius: 2),
+                        color: Colors.black26,
+                        offset: Offset(0, 0),
+                        blurRadius: 20,
+                        spreadRadius: 2,
+                      ),
                     ],
                   ),
                   child: Column(
@@ -113,17 +125,7 @@ class _CountdownWidgetState extends State<CountdownWidget>
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       if (widget.index != 0) const SizedBox(height: 100),
-                      if (_countItems!["end"] == 1)
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: const Text(
-                            "time-expired",
-                            style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.w500),
-                          ).tr(),
-                        )
-                      else
-                        _countdownView(context, isDarkMode),
+                      _countdownView(context, isDarkMode),
                       Padding(
                         padding: const EdgeInsets.only(top: 5),
                         child: Row(
@@ -137,23 +139,43 @@ class _CountdownWidgetState extends State<CountdownWidget>
                     ],
                   ),
                 ),
-                if (widget.dataModel.emoji != null) _emojiWidget()
+                _emojiAndTimeExpired(),
               ],
             ),
           );
   }
 
-  Positioned _emojiWidget() {
+  Positioned _emojiAndTimeExpired() {
+    final bool hasEmoji = widget.dataModel.emoji != null;
+    final bool expired = _countItems != null && _countItems!["end"] == 1;
+
     return Positioned(
       right: 30,
-      bottom: 70,
-      child: CircleAvatar(
-        backgroundColor: Colors.grey.withOpacity(.15),
-        radius: 25,
-        child: Text(
-          widget.dataModel.emoji!,
-          style: const TextStyle(fontSize: 28),
-        ),
+      bottom: expired && hasEmoji
+          ? 55
+          : expired
+              ? 90
+              : 70,
+      child: Column(
+        children: [
+          if (hasEmoji)
+            CircleAvatar(
+              backgroundColor: Colors.grey.withOpacity(.15),
+              radius: 25,
+              child: Text(
+                widget.dataModel.emoji!,
+                style: const TextStyle(fontSize: 28),
+              ),
+            ),
+          if (expired)
+            Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: const Text(
+                "time-expired",
+                style: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+              ).tr(),
+            ),
+        ],
       ),
     );
   }
@@ -188,7 +210,7 @@ class _CountdownWidgetState extends State<CountdownWidget>
     return Row(
       children: _countItems!.entries
           .map(
-            (e) => e.value == 0 && e.key != "second".tr()
+            (e) => e.value == 0 && e.key != "second".tr() || e.key == "end"
                 ? const SizedBox()
                 : Row(
                     children: [

@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
           ),
           if (model.bannerAd != null)
             Padding(
-              padding: const EdgeInsets.symmetric(vertical: 15),
+              padding: const EdgeInsets.only(top: 15),
               child: SizedBox(
                 width: model.bannerAd!.size.width.toDouble(),
                 height: model.bannerAd!.size.height.toDouble(),
