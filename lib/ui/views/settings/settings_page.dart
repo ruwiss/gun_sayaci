@@ -28,7 +28,7 @@ class SettingsPage extends StatelessWidget {
             ),
             SettingsItem(
               title: "support-app".tr(),
-              onTap: () => launchUrl(Uri.parse(KStrings.appLink),
+              onTap: () => launchUrl(Uri.parse(Strings.appLink),
                   mode: LaunchMode.externalApplication),
               widget: Icon(
                 Icons.star,

@@ -16,7 +16,7 @@ class CreateProvider with ChangeNotifier {
 
   void _loadBannerAd() {
     AdmobService.loadBannerAd(
-      adUnitId: KStrings.createBannerAdId,
+      adUnitId: Strings.createBannerAdId,
       onLoaded: (ad) {
         bannerAd = ad;
         notifyListeners();
@@ -49,10 +49,10 @@ class CreateProvider with ChangeNotifier {
     final bool schedule = NotificationHelper.checkDateIsAfter(model);
 
     if (dataModel != null) {
-      await locator<DatabaseService>()
+      await locator<CountdownService>()
           .updateData(id: dataModel!.id!, model: model, schedule: schedule);
     } else {
-      await locator<DatabaseService>()
+      await locator<CountdownService>()
           .insertData(model: model, schedule: schedule);
     }
     return true;

@@ -9,8 +9,8 @@ class HomeProvider with ChangeNotifier {
   List<DataModel> dataModelList = [];
 
   Future<List<DataModel>> getAllDatas() async {
-    await locator<DatabaseService>().init();
-    dataModelList = await locator<DatabaseService>().getAllDatas();
+    await locator<CountdownService>().init();
+    dataModelList = await locator<CountdownService>().getAllDatas();
     notifyListeners();
     loadBannerAd();
     return dataModelList;
@@ -18,7 +18,7 @@ class HomeProvider with ChangeNotifier {
 
   void loadBannerAd() {
     AdmobService.loadBannerAd(
-      adUnitId: KStrings.homeBannerAdId,
+      adUnitId: Strings.homeBannerAdId,
       adSize: AdSize.fullBanner,
       onLoaded: (ad) {
         bannerAd = ad;

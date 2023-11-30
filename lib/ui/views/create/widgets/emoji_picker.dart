@@ -59,7 +59,7 @@ class _EmojiPickerState extends State<EmojiPicker> {
 
   CustomActionButton _emojiWidget() {
     return CustomActionButton.emoji(
-      emoji: widget.emoji ?? KStrings.getDummyEmoji(),
+      emoji: widget.emoji ?? Strings.getDummyEmoji(),
       onTap: _enableInput,
     );
   }

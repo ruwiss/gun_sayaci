@@ -9,7 +9,7 @@ class AdmobService {
   void callInterstitialAd() {
     if (interstitialShowLimit <= interstitialCount) return;
     InterstitialAd.load(
-      adUnitId: KStrings.insertstitialAdId,
+      adUnitId: Strings.insertstitialAdId,
       request: const AdRequest(),
       adLoadCallback: InterstitialAdLoadCallback(
         onAdLoaded: (InterstitialAd ad) {
@@ -25,7 +25,7 @@ class AdmobService {
 
   static void callAppOpenAd({Function()? onAction}) {
     AppOpenAd.load(
-      adUnitId: KStrings.appOpenAdId,
+      adUnitId: Strings.appOpenAdId,
       orientation: AppOpenAd.orientationPortrait,
       request: const AdRequest(),
       adLoadCallback: AppOpenAdLoadCallback(

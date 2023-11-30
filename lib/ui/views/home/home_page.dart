@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
+import 'package:gunsayaci/core/services/database/settings_service.dart';
 import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
@@ -24,7 +25,7 @@ class _HomePageState extends State<HomePage> {
   void _welcomeMessage() {
     if (!locator<SettingsProvider>().welcomeMessageShown()) {
       context.showWelcomeDialog();
-      locator<SettingsProvider>().setWelcomeMessageShown();
+      locator<SettingsService>().setWelcomeMessageShown();
     }
   }
 

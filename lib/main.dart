@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:gunsayaci/core/services/database/settings_service.dart';
 import 'package:gunsayaci/ui/theme.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
 import 'package:gunsayaci/ui/views/settings/settings_provider.dart';
@@ -16,7 +17,7 @@ void main() async {
   setupLocator();
   await NotificationHelper.initialize();
   await EasyLocalization.ensureInitialized();
-  await locator<SettingsProvider>().init();
+  await locator<SettingsService>().getSettings();
   tz.initializeTimeZones();
   runApp(
     MultiProvider(

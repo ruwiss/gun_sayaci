@@ -53,7 +53,7 @@ class _CreatePageState extends State<CreatePage> {
               CustomActionButton(
                 iconData: Icons.remove_circle,
                 onTap: () async {
-                  await locator<DatabaseService>()
+                  await locator<CountdownService>()
                       .removeData(widget.dataModel!);
                   if (mounted) context.pop();
                 },
@@ -88,7 +88,7 @@ class _CreatePageState extends State<CreatePage> {
                     textAlign: TextAlign.center,
                     style: const TextStyle(color: Colors.black87),
                     decoration: InputDecoration(
-                        hintText: KStrings.getRandomTimerHint(),
+                        hintText: Strings.getRandomTimerHint(),
                         hintStyle: const TextStyle(color: Colors.black54),
                         isDense: true,
                         border: InputBorder.none),

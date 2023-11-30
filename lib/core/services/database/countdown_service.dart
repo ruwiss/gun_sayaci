@@ -1,36 +1,17 @@
 import 'package:gunsayaci/core/core.dart';
+import 'package:gunsayaci/core/services/database/database_service.dart';
 import 'package:gunsayaci/models/data_model.dart';
 import 'package:gunsayaci/ui/views/home/home_provider.dart';
-import 'package:gunsayaci/utils/utils.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:path/path.dart';
 
-class DatabaseService {
-  late Database _db;
+class CountdownService extends DatabaseService{
   final String dataTable = 'sayac';
-
-  Future<void> _openDatabase() async {
-    final String path = await getDatabasesPath();
-    String databasePath = join(path, KStrings.dbFile);
-    _db = await openDatabase(databasePath, version: 2,
-        onUpgrade: (db, oldVersion, newVersion) {
-      if (oldVersion < 2) {
-        db.execute('ALTER TABLE $dataTable ADD COLUMN emoji TEXT');
-      }
-    });
-  }
-
-  Future<void> init() async {
-    await _openDatabase();
-    await _db.execute('''CREATE TABLE IF NOT EXISTS $dataTable 
-        (id INTEGER PRIMARY KEY, title TEXT, color INTEGER, emoji Text, dateTime TEXT)''');
-  }
 
   Future<void> insertData(
       {required DataModel model, bool schedule = true}) async {
     locator<AdmobService>().callInterstitialAd();
 
-    await _db
+    await db
         .insert(dataTable, model.toMap())
         .then((value) => model.id = value);
     if (schedule) await NotificationHelper.addSchedule(model);
@@ -39,7 +20,7 @@ class DatabaseService {
 
   Future<void> removeData(DataModel model) async {
     locator<AdmobService>().callInterstitialAd();
-    await _db.delete(dataTable, where: 'id = ?', whereArgs: [model.id]);
+    await db.delete(dataTable, where: 'id = ?', whereArgs: [model.id]);
     await NotificationHelper.removeSchedule(model);
     locator<HomeProvider>().removeFromDataModelList(model.id!);
   }
@@ -48,7 +29,7 @@ class DatabaseService {
       {required int id, required DataModel model, bool schedule = true}) async {
     locator<AdmobService>().callInterstitialAd();
 
-    await _db.update(dataTable, model.toMap(),
+    await db.update(dataTable, model.toMap(),
         where: 'id = ?',
         whereArgs: [id],
         conflictAlgorithm: ConflictAlgorithm.ignore);
@@ -59,7 +40,7 @@ class DatabaseService {
   }
 
   Future<List<DataModel>> getAllDatas() async {
-    final results = await _db.query(dataTable);
+    final results = await db.query(dataTable);
     return results.map((e) => DataModel.fromJson(e)).toList();
   }
 }

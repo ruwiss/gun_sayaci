@@ -150,7 +150,7 @@ class _CountdownWidgetState extends State<CountdownWidget>
     final bool expired = _countItems != null && _countItems!["end"] == 1;
 
     return Positioned(
-      right: 30,
+      right: 20,
       bottom: expired && hasEmoji
           ? 55
           : expired

@@ -1,46 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:gunsayaci/core/core.dart';
+import 'package:gunsayaci/core/services/database/settings_service.dart';
 import 'package:gunsayaci/utils/utils.dart';
-import 'package:path/path.dart';
-import 'package:sqflite/sqflite.dart';
 
 import 'models/settings_model.dart';
 
 class SettingsProvider with ChangeNotifier {
-  late Database _db;
-  final String _dataTable = 'settings';
-
   late List<SettingsModel> _settings;
   ThemeMode themeMode = ThemeMode.light;
 
   bool get isDarkMode => themeMode == ThemeMode.dark;
 
-  Future<void> init() async {
-    await _initTable();
-    await _getAllSettings();
-    _getAppThemeMode();
-  }
-
-  Future<Database> _openDatabase() async {
-    final String path = await getDatabasesPath();
-    String databasePath = join(path, KStrings.dbFile);
-    return await openDatabase(databasePath, version: 2,
-        onUpgrade: (db, oldVersion, newVersion) {
-      // her güncellemede güncelleme notları gösterilsin diye veritabanındaki
-      // kayıt siliniyor.
-      db.delete(_dataTable,
-          where: 'key = ?', whereArgs: [SettingsTypes.welcomeMessage]);
-    });
-  }
-
-  Future<void> _initTable() async {
-    _db = await _openDatabase();
-    await _db.execute(
-        'CREATE TABLE IF NOT EXISTS $_dataTable (key TEXT, value TEXT)');
-  }
-
-  Future<void> _getAllSettings() async {
-    final values = await _db.query(_dataTable);
-    _settings = values.map((e) => SettingsModel.fromJson(e)).toList();
+  void setSettings(List<SettingsModel> settings) {
+    _settings = settings;
+    notifyListeners();
   }
 
   String? _getSettingValue(String key) {
@@ -53,15 +26,10 @@ class SettingsProvider with ChangeNotifier {
   bool welcomeMessageShown() =>
       _getSettingValue(SettingsTypes.welcomeMessage) != null;
 
-  void setWelcomeMessageShown() async {
-    await _db.insert(_dataTable,
-        SettingsModel(SettingsTypes.welcomeMessage, 'true').toJson());
-  }
-
   bool? _getDarkThemeSettingValue() =>
       _getSettingValue(SettingsTypes.darkMode)?.parseBool();
 
-  void _getAppThemeMode() {
+  void getAppThemeMode() {
     final bool darkMode = _getDarkThemeSettingValue() ?? false;
     themeMode = darkMode ? ThemeMode.dark : ThemeMode.light;
     notifyListeners();
@@ -70,13 +38,8 @@ class SettingsProvider with ChangeNotifier {
   void toggleTheme() async {
     themeMode =
         (themeMode == ThemeMode.dark) ? ThemeMode.light : ThemeMode.dark;
-
-    if (_getDarkThemeSettingValue() == null) {
-      await _db.insert(_dataTable, SettingsModel.theme(themeMode).toJson());
-    } else {
-      await _db.update(_dataTable, SettingsModel.theme(themeMode).toJson(),
-          where: 'key = ?', whereArgs: [SettingsTypes.darkMode]);
-    }
+    locator<SettingsService>().setThemeMode(
+        themeMode: themeMode, update: _getDarkThemeSettingValue() != null);
     notifyListeners();
   }
 }
