@@ -13,7 +13,7 @@ class ColorWidget extends StatelessWidget {
     return Consumer<CreateProvider>(
       builder: (context, model, child) {
         return InkWell(
-          onTap: () => model.selectedColorIndex = index,
+          onTap: () => model.setSelectedColor(index),
           child: Container(
             width: 25,
             height: 25,

@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:gunsayaci/models/data_model.dart';
 import 'package:gunsayaci/core/core.dart';
-import 'package:gunsayaci/core/services/database_service.dart';
 
 class CreateProvider with ChangeNotifier {
   DataModel? dataModel;
@@ -33,5 +32,8 @@ class CreateProvider with ChangeNotifier {
     }
   }
 
- 
+  void setSelectedColor(int index) {
+    selectedColorIndex = index;
+    notifyListeners();
+  }
 }
