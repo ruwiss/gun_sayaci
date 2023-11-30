@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
 import 'package:gunsayaci/ui/theme.dart';
@@ -98,6 +99,16 @@ class _CreatePageState extends State<CreatePage> {
                           : KColors.widgetColorsLight.length,
                       (index) => ColorWidget(index: index),
                     ),
+                  ),
+                ),
+              const SizedBox(height: 10),
+              if (model.bannerAd != null)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 15),
+                  child: SizedBox(
+                    width: model.bannerAd!.size.width.toDouble(),
+                    height: model.bannerAd!.size.height.toDouble(),
+                    child: AdWidget(ad: model.bannerAd!),
                   ),
                 )
             ],

@@ -67,11 +67,11 @@ class AdmobService {
     );
   }
 
-  void loadBannerAd({Function(BannerAd ad)? onLoaded}) {
+  static void loadBannerAd({AdSize? adSize, required String adUnitId, Function(BannerAd ad)? onLoaded}) {
     BannerAd(
-      adUnitId: KStrings.homeBannerAdId,
+      adUnitId: adUnitId,
       request: const AdRequest(),
-      size: AdSize.banner,
+      size: adSize ?? AdSize.banner,
       listener: BannerAdListener(
         onAdLoaded: (ad) {
           log('$ad loaded.');

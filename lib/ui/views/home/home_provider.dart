@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:gunsayaci/models/models.dart';
 import 'package:gunsayaci/core/core.dart';
+import 'package:gunsayaci/utils/strings.dart';
 
 class HomeProvider with ChangeNotifier {
   BannerAd? bannerAd;
@@ -16,10 +17,14 @@ class HomeProvider with ChangeNotifier {
   }
 
   void loadBannerAd() {
-    locator<AdmobService>().loadBannerAd(onLoaded: (ad) {
-      bannerAd = ad;
-      notifyListeners();
-    });
+    AdmobService.loadBannerAd(
+      adUnitId: KStrings.homeBannerAdId,
+      adSize: AdSize.fullBanner,
+      onLoaded: (ad) {
+        bannerAd = ad;
+        notifyListeners();
+      },
+    );
   }
 
   void setDataModelList(List<DataModel> dataModelList) {

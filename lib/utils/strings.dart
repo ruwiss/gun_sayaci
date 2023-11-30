@@ -14,6 +14,7 @@ abstract class KStrings {
       "ca-app-pub-1923752572867502/3678023303";
   static const String appOpenAdId = "ca-app-pub-1923752572867502/6342896851";
   static const String homeBannerAdId = "ca-app-pub-1923752572867502/5842707820";
+  static const String createBannerAdId = "ca-app-pub-1923752572867502/7518805476";
 
   static final List<String> dumpTimerHintTextList = [
     "dump-item-0".tr(),

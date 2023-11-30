@@ -60,51 +60,53 @@ class _HomePageState extends State<HomePage> {
               onTap: () => context.pushNamed('settings')),
         ],
       ),
-      body: SingleChildScrollView(
-        physics: const ClampingScrollPhysics(),
-        child: dataModelList.isEmpty
-            ? Center(child: const Text("wait").tr())
-            : Column(
-                children: [
-                  Stack(
-                    children: [
-                      Container(height: 140 * dataModelList.length + 10),
-                      ...List.generate(
-                        dataModelList.length,
-                        (index) {
-                          final DataModel dataModel = dataModelList[index];
-                          double top = 0;
-                          if (index == 1) {
-                            top = 40;
-                          } else if (index == 2) {
-                            top = 180;
-                          } else if (index != 0) {
-                            top = 140 * (index - 2) + 180;
-                          }
-                          return Positioned(
-                            top: top,
-                            left: 0,
-                            right: 0,
-                            child: CountdownWidget(
-                              index: index,
-                              dataModel: dataModel,
-                            ),
-                          );
-                        },
-                      ).toList().reversed,
-                    ],
-                  ),
-                  if (model.bannerAd != null)
-                    Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 15),
-                      child: SizedBox(
-                        width: model.bannerAd!.size.width.toDouble(),
-                        height: model.bannerAd!.size.height.toDouble(),
-                        child: AdWidget(ad: model.bannerAd!),
-                      ),
-                    )
-                ],
+      body: Column(
+        children: [
+          Expanded(
+            child: SingleChildScrollView(
+              physics: const ClampingScrollPhysics(),
+              child: dataModelList.isEmpty
+                  ? Center(child: const Text("wait").tr())
+                  : Stack(
+                      children: [
+                        Container(height: 140 * dataModelList.length + 10),
+                        ...List.generate(
+                          dataModelList.length,
+                          (index) {
+                            final DataModel dataModel = dataModelList[index];
+                            double top = 0;
+                            if (index == 1) {
+                              top = 40;
+                            } else if (index == 2) {
+                              top = 180;
+                            } else if (index != 0) {
+                              top = 140 * (index - 2) + 180;
+                            }
+                            return Positioned(
+                              top: top,
+                              left: 0,
+                              right: 0,
+                              child: CountdownWidget(
+                                index: index,
+                                dataModel: dataModel,
+                              ),
+                            );
+                          },
+                        ).toList().reversed,
+                      ],
+                    ),
+            ),
+          ),
+          if (model.bannerAd != null)
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 15),
+              child: SizedBox(
+                width: model.bannerAd!.size.width.toDouble(),
+                height: model.bannerAd!.size.height.toDouble(),
+                child: AdWidget(ad: model.bannerAd!),
               ),
+            )
+        ],
       ),
     );
   }
