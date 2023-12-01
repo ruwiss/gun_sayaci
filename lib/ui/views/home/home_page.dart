@@ -25,7 +25,6 @@ class _HomePageState extends State<HomePage> {
   void _welcomeMessage() {
     if (!locator<SettingsProvider>().welcomeMessageShown()) {
       context.showWelcomeDialog();
-      locator<SettingsService>().setWelcomeMessageShown();
     }
   }
 
@@ -43,6 +42,7 @@ class _HomePageState extends State<HomePage> {
         } else {
           _welcomeMessage();
         }
+        locator<SettingsService>().setWelcomeMessageShown();
         FlutterNativeSplash.remove();
       });
     });

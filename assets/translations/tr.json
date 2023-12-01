@@ -1,7 +1,6 @@
 {
     "app-name": "Gün Sayacı",
-    "welcome-msg": "- Uygulama optimize edildi.\n- Animasyon eklendi.\n- Emoji ekleme seçeneği.\n- Geçmiş bir olay için sayaç ekleyebilme.", 
-    "wait": "Bekleyiniz",
+    "welcome-msg":"- Emoji ekleme seçeneği.\n- Geçmiş bir olay için sayaç ekleyebilme.\n- Animasyon eklendi.\n- Bildirim ikonu ve sesi değiştirildi.\n- Uygulama optimize edildi.",    "wait": "Bekleyiniz",
     "create": "Oluştur",
     "title-error": "Başlık Yazmadınız",
     "title-info": "Başlık Giriniz",

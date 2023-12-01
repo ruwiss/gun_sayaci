@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 
 @immutable
 abstract class Strings {
-  static const String appVersion = '2.0.0';
+  static const String appVersion = '2.1.0';
 
   static const String appLink =
       "https://play.google.com/store/apps/details?id=com.rw.gunsayaci";

@@ -1,7 +1,6 @@
 {
     "app-name": "Day Counter",
-    "welcome-msg": "- The application has been optimized.\n- Animation added.\n- Option to add emojis.\n- Ability to add a counter for a past event.",
-    "wait": "Please wait",
+    "welcome-msg": "- Option to add emojis.\n- Ability to add a counter for a past event.\n- Animation added.\n- Notification icon and sound changed.\n- Application optimized.",    "wait": "Please wait",
     "create": "Create",
     "title-error": "Title is Missing",
     "title-info": "Enter Title",

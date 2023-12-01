@@ -26,9 +26,12 @@ class NotificationHelper {
   static Future<NotificationDetails> _notificationDetails() async =>
       const NotificationDetails(
         android: AndroidNotificationDetails(
-          "GunSayaci",
-          "day_counterr_1",
+          "DayCounterNotification",
+          "day_counter_notification",
           importance: Importance.max,
+          sound: RawResourceAndroidNotificationSound('notification'),
+          playSound: true,
+          icon: 'notification_icon',
         ),
       );
 
